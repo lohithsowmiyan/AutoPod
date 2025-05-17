@@ -1,0 +1,5 @@
+You are an expert summarizer. Please summarize the following content clearly and concisely:
+
+---
+{{content}}
+---
