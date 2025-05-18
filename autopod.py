@@ -2,7 +2,8 @@ import asyncio
 from crawler import crawler
 from summarizer import summarize_contents
 import argparse
-
+from voice import text_2_audio
+from dotenv import load_dotenv
 
 
 def main():
@@ -23,7 +24,10 @@ def main():
 
     # for url, summary in summaries.items():
     print(f"\n--- Summary for  ---\n{summaries}\n")
+    text_2_audio(summaries)
+
+
 
 if __name__ == "__main__":
+    load_dotenv()
     main()
-

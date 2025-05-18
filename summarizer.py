@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-load_dotenv()
+
 
 def load_prompt_template() -> PromptTemplate:
     news_recitation_prompt = PromptTemplate(

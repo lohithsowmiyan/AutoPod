@@ -5,3 +5,5 @@ langchain_experimental
 crawl4ai
 dotenv
 requests
+git+https://github.com/nari-labs/dia.git
+soundfile
