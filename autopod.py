@@ -1,8 +1,8 @@
 import asyncio
 from crawler import crawler
-from summarizer import summarize_contents
+from generator import summarize_contents
 import argparse
-from voice import text_2_audio
+# from voice import text_2_audio
 from dotenv import load_dotenv
 
 
@@ -24,7 +24,7 @@ def main():
 
     # for url, summary in summaries.items():
     print(f"\n--- Summary for  ---\n{summaries}\n")
-    text_2_audio(summaries)
+    #text_2_audio(summaries)
 
 
 
