@@ -15,15 +15,15 @@ You are John, a young and energetic voice who brings fresh perspectives to the c
 
 def load_prompt_template() -> PromptTemplate:
     news_recitation_prompt = PromptTemplate(
-    input_variables=["persona", "news_content", "duration"],
+    input_variables=["persona", "news_content", "duration", "n_speakers"],
     template="""
     {persona} 
-    Please use the following content clearly and concisely to create an engaging, well-structured podcast episode. Ensure the script includes multiple speakers to create a dynamic and immersive listening experience.
+    Please use the following content clearly and concisely to create an engaging, well-structured podcast episode. Ensure the script includes {n_speakers} speakers to create a dynamic and immersive listening experience.
 
     To indicate who is speaking, use [S1], [S2], [S3], etc., before each line, where S stands for Speaker and N is the speaker number.
 
-    Please use the following expressions to enhance realism and tone but do not use expressions other than the ones listed below:
-    (laughs), (clears throat), (sighs), (gasps), (coughs), (singing), (sings), (mumbles), (beep), (groans), (sniffs), (claps), (screams), (inhales), (exhales), (applause), (burps), (humming), (sneezes), (chuckle), (whistles).
+    Please use the following expressions to enhance realism and tone but do not use expressions other than the ones listed below, I repeat once i again do not use any expression outside of these!!
+    <laugh>, <chuckle>, <sigh>, <cough>, <sniffle>, <groan>, <yawn>, <gasp>. 
 
     Do not use any other special characters or symbols.
 
@@ -31,20 +31,19 @@ def load_prompt_template() -> PromptTemplate:
     Style: A balanced mix of storytelling and factual discussion to maintain listener interest throughout.
 
     Structure:
-    1. Opening Hook (30s–1 min): Start with a striking or emotionally resonant moment to immediately capture attention.
-    2. Background & Context (1–2 mins): Explain the key people, events, or issues involved in a way that’s clear and accessible.
-    3. Main Developments (2–3 mins): Discuss what happened, unfolding the story in a compelling sequence with important quotes or soundbites.
-    4. Personal Voices / Testimonies (1–2 mins): Include voices of those directly involved, expert opinions, or moving accounts.
-    5. Closing Thoughts / What’s Next (30s–1 min): Wrap up with the current state of things and what listeners should watch out for.
+    1. Opening Hook: Start with a striking or emotionally resonant moment to immediately capture attention.
+    2. Background & Context: Explain the key people, events, or issues involved in a way that’s clear and accessible.
+    3. Main Developments: Discuss what happened, unfolding the story in a compelling sequence with important quotes or soundbites.
+    4. Personal Voices / Testimonies : Include voices of those directly involved, expert opinions, or moving accounts.
+    5. Closing Thoughts / What’s Next: Wrap up with the current state of things and what listeners should watch out for.
 
-    Maintain clarity, pacing, and vivid narration.
+    Maintain clarity, pacing, and vivid narration. Make sure that the content is very enganging by adding informal speaches here and there.
 
     Content
     ---
     {news_content}
     ---
-
-    Generate a news script optimized for a spoken news segment of approximately {duration} minutes.
+    Generate a news script optimized for a spoken podcast segment of approximately {duration} minutes.
     """
     )
 
@@ -60,7 +59,7 @@ def summarize_contents(content: Dict[str, str]) -> Dict[str, str]:
     )
     initial_respones = []
     for i_name in [sarah,john]:
-        prompt = prompt_template.format(persona=i_name,news_content=content[:10000],duration= 5)  # Trim long input
+        prompt = prompt_template.format(persona=i_name,news_content=content[:10000],duration= 5, n_speakers=2)  # Trim long input
         response = llm.invoke(prompt)
         initial_respones.append(response.content)
     mad_agents = MAD(initial_respones[0], initial_respones[1])
