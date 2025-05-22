@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from mad import MAD
+import re
 
 sarah = """
 You are Sarah, an experienced and thoughtful individual. You focus on the quality of the content and prefer concise, well-structured information. You have a strong appreciation for traditional topics such as sports, history, and established cultural themes.
@@ -63,6 +64,59 @@ def summarize_contents(content: Dict[str, str]) -> Dict[str, str]:
         response = llm.invoke(prompt)
         initial_respones.append(response.content)
     mad_agents = MAD(initial_respones[0], initial_respones[1])
-    return mad_agents.debate(llm)
+    conversation= mad_agents.debate(llm).content
+    return parse_transcript(conversation)
+
+def parse_transcript(transcript: str):
+        # Regex pattern to match [S1], [S2], etc., followed by their text
+        pattern = r'\[([S\d]+)\]\s*(.*?)((?=\[S\d+\])|$)'  # lookahead for next speaker or end of string
+
+        matches = re.findall(pattern, transcript, re.DOTALL)
+        result = [(speaker, content.strip()) for speaker, content, _ in matches]
+        
+        return result
+
+
+# def get_conversations(content):
+#     speach  = summarize_contents(content)
+#     conversation_template = PromptTemplate(
+#     input_variables=["speach"],
+#     template="""
+#     You are a podcast transcript formatter. Given a raw transcript, output a list of tuples like this:
+#     [("S1", "Their sentence"), ("S2", "Their sentence"), ...]
+#     Transcript:
+#     {speach}
+#     Output:
+#     """
+#     )
+
+#     llm = ChatGoogleGenerativeAI(
+#         model="gemini-1.5-flash",
+#         google_api_key=os.getenv("GOOGLE_API_KEY"),
+#         temperature=0.8
+#     )
+
+#     prompt = conversation_template.format(speach= speach)
+
+#     conversation = llm.invoke(prompt).content
+
+
+
+#     def parse_transcript(transcript: str):
+#         # Regex pattern to match [S1], [S2], etc., followed by their text
+#         pattern = r'\[([S\d]+)\]\s*(.*?)((?=\[S\d+\])|$)'  # lookahead for next speaker or end of string
+
+#         matches = re.findall(pattern, transcript, re.DOTALL)
+#         result = [(speaker, content.strip()) for speaker, content, _ in matches]
+        
+#         return result
+    
+#     # Parse the transcript
+#     parsed = parse_transcript(conversation)
+
+#     return parsed
+    
+
+
         
 
