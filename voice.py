@@ -20,15 +20,17 @@ load_dotenv()
 
 
 voices = {
-    'S1' : 'tara',
+    'S1' : 'mia',
     'S2' : 'leo',
     'S3' : 'jess',
     'S4' : 'lea',
     'S5' : 'dan',
-    'S6' : 'mia',
+    'S6' : 'tara',
     'S7' : 'zac',
     'S8' : 'zoe'
 }
+
+os.makedirs("tmp", exist_ok=True)
 def text_2_audio(texts = ''):
     orpheus = OrpheusCpp(verbose=False, lang="en")
 
@@ -43,7 +45,7 @@ def text_2_audio(texts = ''):
 
     for i,(v,text) in enumerate(texts):
         buffer = []
-        wav_file = f"segment_{i}.wav"
+        wav_file = f"tmp/segment_{i}.wav"
         for j, (sr, chunk) in enumerate(orpheus.stream_tts_sync(text, options={"voice_id": f"{voices[v]}"})):
             buffer.append(chunk)
             print(f"Generated chunk {j}")
