@@ -150,7 +150,8 @@ class MAD:
             - Sounds like something a real person would say out loud—natural, clear, and emotionally engaging  
             - Follows the intended podcast structure and tone
 
-            Your final script should feel like a well-produced segment: compelling, listener-friendly, and ready to record.
+            Your final script should feel like a well-produced segment: compelling, listener-friendly, and ready to record. Please remove any character in the below list
+            ['*', '\n'] as these characters confuses tts models.
 
             Now, please write the final podcast script.
             """
