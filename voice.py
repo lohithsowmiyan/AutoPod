@@ -15,6 +15,7 @@ import numpy as np
 from dotenv import load_dotenv
 from pydub import AudioSegment
 load_dotenv()
+import os
 # List your WAV files in order
 
 

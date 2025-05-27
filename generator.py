@@ -22,7 +22,7 @@ def load_prompt_template() -> PromptTemplate:
     {persona} 
     Please come up with a clear, consice and an engaging, well-structured script for a podcast episode on the topic `{content}` approximately {duration} minuites long. Ensure the script includes {n_speakers} speakers to create a dynamic and immersive listening experience.
 
-    To indicate who is speaking, use [S1], [S2], [S3], etc., before each line, where S stands for Speaker and N is the speaker number.
+    To indicate who is speaking, use [S1], [S2], [S3], etc., before each line, where S stands for Speaker and N is the speaker number. 
 
     Please use the following expressions to enhance realism and tone. 
     <laugh>, <chuckle>, <sigh>, <cough>, <sniffle>, <groan>, <yawn>, <gasp>. 
@@ -32,7 +32,7 @@ def load_prompt_template() -> PromptTemplate:
     Tone: Speak naturally and informally, like a close friend explaining something fascinating. Make it warm, conversational, and emotionally engaging, but still clear and informative.
 
     Style: Use a mix of storytelling and accessible facts. Include rhetorical questions, contractions, and emotional moments. Feel free to add brief pauses, small asides, or reflective thoughts that sound like how real people talk in podcasts. 
-
+    
     Structure:
     1. Opening Hook: Start with a striking or emotionally resonant moment to immediately capture attention.
     2. Background & Context: Explain the key people, events, or issues involved in a way that’s clear and accessible.
@@ -58,14 +58,15 @@ def call_perplexity(prompt: str) -> str:
     payload = {
         "model": "sonar-pro",
         "messages": [
-            #{"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ],
         "search_domain_filter": [
             "nasa.gov",
             "wikipedia.org",
             "space.com"
-        ]
+        ],
+        "temperature" : 0.7
     }
     response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
@@ -93,9 +94,19 @@ def summarize_contents(content: Dict[str, str]) -> Dict[str, str]:
 
 # Transcript parsing
 def parse_transcript(transcript: str):
-    pattern = r'\[([S\d]+)\]\s*(.*?)((?=\[S\d+\])|$)'
+    # Match speaker tags like [S1] or [S2]: followed by content
+    pattern = r'\[([S\d]+)\]:?\s*(.*?)((?=\[S\d+\])|$)'
     matches = re.findall(pattern, transcript, re.DOTALL)
-    return [(speaker, content.strip()) for speaker, content, _ in matches]
+    
+    cleaned = []
+    for speaker, content, _ in matches:
+        # Remove asterisks and any [0-9] tags inside content
+        content = content.strip()
+        content = content.replace("*", "")
+        content = re.sub(r'\[\d+\]', '', content)  # remove tags like [1], [23], etc.
+        cleaned.append((speaker, content.strip()))
+    
+    return cleaned
 
 
 # def get_conversations(content):
