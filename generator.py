@@ -35,10 +35,11 @@ def load_prompt_template() -> PromptTemplate:
     
     Structure:
     1. Opening Hook: Start with a striking or emotionally resonant moment to immediately capture attention.
-    2. Background & Context: Explain the key people, events, or issues involved in a way that’s clear and accessible.
-    3. Main Developments: Discuss what happened, unfolding the story in a compelling sequence with important quotes or soundbites.
-    4. Personal Voices / Testimonies: Include voices of those directly involved, expert opinions, or moving accounts.
-    5. Closing Thoughts / What’s Next: Wrap up with the current state of things and what listeners should watch out for.
+    2. Introduciton: Briefly introduce the topic and your speakers, Eg: [S1] Welcome to our podcast, I'm Joey and I'm here with my co-host/hosts,.... NOTE: use names that apply to both male and female speakers to avoid ambiguity.
+    3. Background & Context: Explain the key people, events, or issues involved in a way that’s clear and accessible.
+    4. Main Developments: Discuss what happened, unfolding the story in a compelling sequence with important quotes or soundbites.
+    5. Personal Voices / Testimonies: Include voices of those directly involved, expert opinions, or moving accounts.
+    6. Closing Thoughts / What’s Next: Wrap up with the current state of things and what listeners should watch out for. Dont forget to include a closing note "[S1] Until then its is Carter [S2] Smith [S1] Signing from you Byeee.
 
     Voice & Delivery:
     - Use contractions and informal phrasing to reflect natural human speech.

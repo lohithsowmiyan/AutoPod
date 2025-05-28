@@ -24,7 +24,7 @@ def main():
     # print("\n=== Generating Summaries ===")
     # summaries = summarize_contents(url_to_text)
 
-    summaries = summarize_contents('Podcast on the new thunderbolts movie')
+    summaries = summarize_contents('Podcast on todays news and current events')
 
     # for url, summary in summaries.items():
     print(f"\n--- Summary for  ---\n{summaries}\n")
